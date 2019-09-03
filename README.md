@@ -5,10 +5,6 @@
 [![License](https://img.shields.io/cocoapods/l/Hijackr.svg?style=flat)](https://cocoapods.org/pods/Hijackr)
 [![Platform](https://img.shields.io/cocoapods/p/Hijackr.svg?style=flat)](https://cocoapods.org/pods/Hijackr)
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
 ## Installation
 
 Hijackr is available through [CocoaPods](https://cocoapods.org). To install
@@ -34,7 +30,7 @@ Hijackr.unregister()
 
 To hijack a request:
 
-```
+```swift
 Hijackr.hijack(request: request, with: response)
 ```
 
