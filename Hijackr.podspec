@@ -27,7 +27,7 @@ A tool to hijack URLRequest.
   s.author           = { 'michaelhenry' => 'me@iamkel.net' }
   s.source           = { :git => 'https://github.com/michaelhenry/Hijackr.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'Hijackr/Classes/**/*'
 end
