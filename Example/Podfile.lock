@@ -1,0 +1,16 @@
+PODS:
+  - Hijackr (1.0.0)
+
+DEPENDENCIES:
+  - Hijackr (from `../`)
+
+EXTERNAL SOURCES:
+  Hijackr:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Hijackr: 1580bc303d68da156c7e58a627891284af320142
+
+PODFILE CHECKSUM: 2fe0af0b25ae69f0c6b9a67b30998c726075d670
+
+COCOAPODS: 1.7.5
