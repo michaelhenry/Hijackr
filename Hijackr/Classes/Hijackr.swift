@@ -20,8 +20,9 @@ final public class Hijackr:URLProtocol {
     responses[request.hashValue] = response
   }
   
-  public static func register() {
-    URLProtocol.registerClass(self.self)
+  @discardableResult
+  public static func register() -> Bool{
+    return URLProtocol.registerClass(self.self)
   }
   
   public static func unregister() {
