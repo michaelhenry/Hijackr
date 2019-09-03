@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Hijackr_Example' do
+  pod 'Hijackr', :path => '../'
+
+  target 'Hijackr_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
