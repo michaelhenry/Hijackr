@@ -44,7 +44,7 @@ Hijackr.hijack(request: request, with: response)
 
 ## UnitTest
 
-Test Cases can be found [here](/Example/Tests/Tests.swift)
+Test Cases can be found [here](/Example/Tests/)
 
 ## Author
 
