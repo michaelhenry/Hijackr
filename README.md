@@ -42,6 +42,10 @@ let response = Hijackr.Response(statusCode: 200, body: "hello".data(using: .utf8
 Hijackr.hijack(request: request, with: response)
 ```
 
+## UnitTest
+
+Test Cases can be found [here](/Example/Tests/Tests.swift)
+
 ## Author
 
 michaelhenry, me@iamkel.net
