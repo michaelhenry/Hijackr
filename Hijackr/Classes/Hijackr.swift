@@ -2,6 +2,28 @@ import Foundation
 
 final public class Hijackr:URLProtocol {
   
+  public struct Request:Hashable {
+    public enum Method:String {
+      case get
+      case head
+      case post
+      case patch
+      case put
+      case delete
+      case connect
+      case options
+      case trace
+    }
+  
+    var method:Method
+    var url:URL
+    
+    public init(url:URL, method: Method = .get) {
+      self.url = url
+      self.method = method
+    }
+  }
+  
   public struct Response {
     var statusCode:Int
     var headers:[String:String]
@@ -14,10 +36,10 @@ final public class Hijackr:URLProtocol {
     }
   }
   
-  private static var responses:[Int: Response] = [:]
+  private static var responses:[Request: Response] = [:]
   
-  public static func hijack(request: URLRequest, with response:Response) {
-    responses[request.hashValue] = response
+  public static func hijack(request: Request, with response:Response) {
+    responses[request] = response
   }
   
   @discardableResult
@@ -26,11 +48,14 @@ final public class Hijackr:URLProtocol {
   }
   
   public static func unregister() {
+    // reset
+    responses = [:]
+    print("RESPONSES \(responses)")
     URLProtocol.unregisterClass(self.self)
   }
   
   override public class func canInit(with request: URLRequest) -> Bool {
-    if let _ = responses[request.hashValue] {
+    if let _ = responses[request.mockRequest] {
       return true
     }
     return false
@@ -41,7 +66,7 @@ final public class Hijackr:URLProtocol {
   }
   
   override public func startLoading() {
-    guard let response = Hijackr.responses[request.hashValue],
+    guard let response = Hijackr.responses[request.mockRequest],
       let url = request.url
     else { fatalError("No response or url found.") }
     
@@ -60,5 +85,12 @@ final public class Hijackr:URLProtocol {
   
   override public func stopLoading() {
     
+  }
+}
+
+private extension URLRequest {
+  
+  var mockRequest:Hijackr.Request {
+    return Hijackr.Request(url: url!, method: Hijackr.Request.Method(rawValue: httpMethod?.lowercased()!)!)
   }
 }
