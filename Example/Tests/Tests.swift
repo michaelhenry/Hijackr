@@ -17,7 +17,7 @@ class Tests: XCTestCase {
   
   func testCase1() {
     let request =  URLRequest(url: URL(string: "https://www.google.com")!)
-    let response = Hijackr.Response(statusCode: 200, body: "hello1".data(using: .utf8))
+    let response = Response(statusCode: 200, body: "hello1".data(using: .utf8))
     
     Hijackr.hijack(request: request.mockRequest, with: response)
   
@@ -34,7 +34,7 @@ class Tests: XCTestCase {
   
   func testCase2() {
     let request =  URLRequest(url: URL(string: "https://www.google.com")!)
-    let response = Hijackr.Response(statusCode: 200, body: "hello2".data(using: .utf8))
+    let response = Response(statusCode: 200, body: "hello2".data(using: .utf8))
     
     Hijackr.hijack(url: URL(string: "https://www.google.com")!, with: response)
     let ex = expectation(description: "expect to download a content")

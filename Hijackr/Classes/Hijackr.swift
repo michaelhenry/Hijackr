@@ -2,40 +2,6 @@ import Foundation
 
 final public class Hijackr:URLProtocol {
   
-  public struct Request:Hashable {
-    public enum Method:String {
-      case get
-      case head
-      case post
-      case patch
-      case put
-      case delete
-      case connect
-      case options
-      case trace
-    }
-  
-    var method:Method
-    var url:URL
-    
-    public init(url:URL, method: Method = .get) {
-      self.url = url
-      self.method = method
-    }
-  }
-  
-  public struct Response {
-    var statusCode:Int
-    var headers:[String:String]
-    var body:Data?
-    
-    public init(statusCode: Int, headers:[String:String] = [:], body:Data? = nil ) {
-      self.statusCode = statusCode
-      self.headers = headers
-      self.body = body
-    }
-  }
-  
   private static var responses:[Request: Response] = [:]
   
   public static func hijack(request: Request, with response:Response) {
@@ -45,9 +11,9 @@ final public class Hijackr:URLProtocol {
   public static func hijack(
     url: URL,
     method: Request.Method = .get,
-    with response:Hijackr.Response) {
+    with response:Response) {
     
-    let request = Hijackr.Request(url: url, method: method)
+    let request = Request(url: url, method: method)
     responses[request] = response
   }
   
@@ -94,14 +60,5 @@ final public class Hijackr:URLProtocol {
   
   override public func stopLoading() {
     
-  }
-}
-
-public extension URLRequest {
-  
-  var mockRequest:Hijackr.Request {
-    guard let _url = url else { fatalError("URL must not be nil.") }
-    guard let _method = httpMethod, let reqMethod = Hijackr.Request.Method(rawValue: _method.lowercased()) else { fatalError("Please check the request method!") }
-    return Hijackr.Request(url: _url, method:reqMethod)
   }
 }
