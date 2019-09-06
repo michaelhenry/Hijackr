@@ -42,6 +42,15 @@ final public class Hijackr:URLProtocol {
     responses[request] = response
   }
   
+  public static func hijack(
+    url: URL,
+    method: Request.Method = .get,
+    with response:Hijackr.Response) {
+    
+    let request = Hijackr.Request(url: url, method: method)
+    responses[request] = response
+  }
+  
   @discardableResult
   public static func register() -> Bool{
     return URLProtocol.registerClass(self.self)
@@ -88,9 +97,11 @@ final public class Hijackr:URLProtocol {
   }
 }
 
-private extension URLRequest {
+public extension URLRequest {
   
   var mockRequest:Hijackr.Request {
-    return Hijackr.Request(url: url!, method: Hijackr.Request.Method(rawValue: httpMethod?.lowercased()!)!)
+    guard let _url = url else { fatalError("URL must not be nil.") }
+    guard let _method = httpMethod, let reqMethod = Hijackr.Request.Method(rawValue: _method.lowercased()) else { fatalError("Please check the request method!") }
+    return Hijackr.Request(url: _url, method:reqMethod)
   }
 }
