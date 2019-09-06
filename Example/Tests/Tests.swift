@@ -15,20 +15,37 @@ class Tests: XCTestCase {
     Hijackr.unregister()
   }
   
-  func testExample() {
-
+  func testCase1() {
     let request =  URLRequest(url: URL(string: "https://www.google.com")!)
-    let response = Hijackr.Response(statusCode: 200, body: "hello".data(using: .utf8))
-    Hijackr.hijack(request: request, with: response)
+    let response = Hijackr.Response(statusCode: 200, body: "hello1".data(using: .utf8))
+    
+    Hijackr.hijack(request: request.mockRequest, with: response)
+  
     let ex = expectation(description: "expect to download a content")
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+    let session = URLSession.shared
+    let task = session.dataTask(with: request) { (data, response, error) in
       XCTAssertNotNil(data)
-      XCTAssertEqual(String(data: data!, encoding: .utf8), "hello")
+      XCTAssertEqual(String(data: data!, encoding: .utf8), "hello1")
       ex.fulfill()
     }
     task.resume()
     wait(for: [ex], timeout: 2.0)
-    URLProtocol.unregisterClass(Hijackr.self)
+  }
+  
+  func testCase2() {
+    let request =  URLRequest(url: URL(string: "https://www.google.com")!)
+    let response = Hijackr.Response(statusCode: 200, body: "hello2".data(using: .utf8))
+    
+    Hijackr.hijack(url: URL(string: "https://www.google.com")!, with: response)
+    let ex = expectation(description: "expect to download a content")
+    let session = URLSession.shared
+    let task = session.dataTask(with: request) { (data, response, error) in
+      XCTAssertNotNil(data)
+      XCTAssertEqual(String(data: data!, encoding: .utf8), "hello2")
+      ex.fulfill()
+    }
+    task.resume()
+    wait(for: [ex], timeout: 2.0)
   }
   
   func testPerformanceExample() {
